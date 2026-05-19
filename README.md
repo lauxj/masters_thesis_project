@@ -9,7 +9,7 @@ quantum computers. Different agent-like observers are used to represent the
 friend Charlie in the experiment, and the resulting data is evaluated through
 Local Friendliness (LF) violations and agent-performance plots.
 
-![Implemented one-friend EWFS scenario](notebooks/assets/ewfs_one_friend.png)
+![Implemented one-friend EWFS scenario](notebooks/assets/ewfs_one_friend.jpg)
 
 The main pipeline is:
 
