@@ -1,25 +1,35 @@
-# Local Friendliness violations with Agents on Quantum Computers
+# Agent-Like Observers in Extended Wigner's Friend Scenarios on Quantum Computers
 
 This repository contains the code and data for my master's thesis project,
-"Local Friendliness violations with Agents on Quantum Computers".
+"Agent-Like Observers in Extended Wigner's Friend Scenarios on Quantum
+Computers".
 
-The project runs an extended Wigner's friend scenario (EWFS) on quantum
-computers. Quantum agents are used to represent the friend  Charlie in the experiment.
-The main pipeline of the project is:
+The project implements Extended Wigner's Friend Scenario (EWFS) circuits on
+quantum computers. Different agent-like observers are used to represent the
+friend Charlie in the experiment, and the resulting data is evaluated through
+Local Friendliness (LF) violations and agent-performance plots.
+
+![Implemented one-friend EWFS scenario](notebooks/assets/ewfs_one_friend.pdf)
+
+The main pipeline is:
 
 1. Circuit construction
 2. Noiseless (ideal) simulation
 3. Transpilation of circuits for IBM backends
 4. Noise simulation
 5. IBM hardware runs
-6. Evaluation of agents
+6. Evaluation of LF violations and agent behavior
 
 ## Project Structure
 
 ```bash
 .
 ├── data/                             
-│   └── paperdata/                    # saved runs used used in thesis
+│   ├── IBM_calibrations/             # saved IBM calibration data
+│   ├── data_fake_hardware/           # generated fake-hardware simulation runs
+│   ├── data_noiseless_simulation/    # generated noiseless simulation runs
+│   ├── data_real_hardware/           # generated IBM hardware runs
+│   └── paperdata/                    # saved runs used in the thesis
 ├── ewfs/
 │   ├── analysis/
 │   │   ├── agent_evaluation.py       # creates thesis plots from data
@@ -36,10 +46,11 @@ The main pipeline of the project is:
 │       ├── real_hardware.py          # real IBM hardware runs
 │       └── run.py                    # main experiment runner
 ├── notebooks/                        
-│   └── project_demo.ipynb            # demo notebook for the project pipeline
+│   ├── project_demo.ipynb            # demo notebook for the project pipeline
+│   └── project_plots.ipynb           # notebook for reproducing thesis plots
 ├── results/                          # generated after running experiment
 └── scripts/
-    ├── evaluation.py                 # main file for making evaluation plots
+    ├── evaluation.py                 # main file for evaluation plots
     └── run_experiment.py             # main file for running experiments
 ```
 
@@ -65,7 +76,7 @@ On Windows, activate the environment with:
 ```
 
 Using VS Code: A simple installation with VS Code would be to download the repository as a ZIP file, store it locally and then open it in VS Code. In the Terminal in VS Code, run the bash command above from the 3rd line.
-To run the notebook, choose the installed .venv kernel i VS Code. 
+To run the notebook, choose the installed `.venv` kernel in VS Code.
 
 ## Usage
 
@@ -74,6 +85,9 @@ To open the demo notebook via Terminal:
 ```bash
 python -m notebook notebooks/project_demo.ipynb
 ```
+
+The thesis plots can be reproduced from the saved `data/paperdata/` runs with
+`notebooks/project_plots.ipynb` or `scripts/evaluation.py`.
 
 To make a new experiment run, open `scripts/run_experiment.py`, change the
 settings near the top, and run the file. The more detailed settings are in
@@ -85,12 +99,13 @@ New runs are saved in the normal data folders:
 - `data/data_fake_hardware/`
 - `data/data_real_hardware/`
 
-To reproduce the thesis plots, open `scripts/evaluation.py` and use the runs in
-`data/paperdata/`. You can also change it to use new runs from the normal data
-folders.
+For new data, you can change the evaluation script or plots notebook to use
+runs from the normal data folders.
 
-IBM Quantum API token is required for: real hardware runs, transpilation (to access calibration data) and fake-hardware simulation. Also the demo notebook needs an installed IBM API token. (installation see below)
-Noiseless simulation and evaluation from saved data do not need an IBM account.
+An IBM Quantum API token is required for real hardware runs, transpilation
+(to access backend calibration data), fake-hardware simulation, and the demo
+notebook. Noiseless simulation and evaluation from saved data do not need an
+IBM account.
 
 
 ## IBM Quantum API Token
@@ -108,7 +123,7 @@ python -c "from qiskit_ibm_runtime import QiskitRuntimeService; QiskitRuntimeSer
 ```
 
 Replace `YOUR_IBM_API_KEY` with your IBM Quantum API key. You only need to do
-this oncee. After that, Qiskit can load IBM backends from this project.
+this once. After that, Qiskit can load IBM backends from this project.
 
 ## License
 
