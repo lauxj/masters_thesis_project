@@ -21,4 +21,8 @@ notebooks/*.ipynb
 notebooks/.ipynb_checkpoints/
 !notebooks/project_demo.ipynb
 
+# Source PDFs used to build the README animation. Keep the rendered GIF tracked.
+notebooks/assets/ewfs_one_friend_*gif.pdf
+notebooks/assets/ewfs_one_friend_a.pdf
+
 **/.DS_Store
