@@ -584,7 +584,7 @@ def plot_backend_betting_layout_simple(backend_name: str = BACKEND_NAME, save: b
     if save:
         plt.savefig(output_prefix_with_suffix(backend_name, "png"), bbox_inches="tight", pad_inches=0.05)
         title.remove()
-        plt.savefig(output_prefix_with_suffix(backend_name, "pdf"), bbox_inches="tight", pad_inches=0.05)
+        plt.savefig(output_prefix_with_suffix(backend_name, "pdf"), bbox_inches="tight", pad_inches=0.0)
         plt.close(fig)
         return None
 
