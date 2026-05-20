@@ -36,6 +36,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
+from matplotlib.transforms import blended_transform_factory
 
 # directories
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -66,6 +67,7 @@ LF_LOWER_TICK_FONT_SIZE = 16
 LF_SUMMARY_LABEL_FONT_SIZE = 15
 LF_SUMMARY_VALUE_LABEL_FONT_SIZE = 12
 LF_SUMMARY_LEGEND_FONT_SIZE = 14
+LF_SUMMARY_AGENT_LABEL_X = -0.085
 SINGLE_PANEL_FIGSIZE = (9.2, 5.6)
 LF_SINGLE_BACKEND_FIGSIZE = (10.0, 6.1)
 LF_COMPARISON_FIGSIZE = (10.0, 6.4)
@@ -691,6 +693,10 @@ def result_axis_label(result) -> str:
 
 def agent_display_label(agent_name: str) -> str:
     return AGENT_DISPLAY_LABELS.get(agent_name, agent_name)
+
+
+def multiline_agent_display_label(agent_name: str) -> str:
+    return agent_display_label(agent_name).replace(" Agent", "\nAgent")
 
 
 def backend_lf_panel_label(result) -> str:
@@ -2847,11 +2853,21 @@ def plot_hardware_lf_agent_summary(
     ax.set_xlim(violation_offset, max_right_limit)
     ax.set_ylim(-0.7, len(agent_rows) - 0.3)
     ax.set_yticks(row_positions)
-    set_thesis_yticklabels(
-        ax,
-        [agent_display_label(row["agent_name"]) for row in agent_rows],
-        fontsize=LF_SUMMARY_LABEL_FONT_SIZE,
-    )
+    ax.set_yticklabels([])
+    ax.tick_params(axis="y", length=0)
+    label_transform = blended_transform_factory(ax.transAxes, ax.transData)
+    for y_pos, row in zip(row_positions, agent_rows):
+        ax.text(
+            LF_SUMMARY_AGENT_LABEL_X,
+            y_pos,
+            multiline_agent_display_label(row["agent_name"]),
+            transform=label_transform,
+            ha="center",
+            va="center",
+            multialignment="center",
+            fontsize=LF_SUMMARY_LABEL_FONT_SIZE,
+            clip_on=False,
+        )
     ax.grid(axis="x", linestyle="--", alpha=0.25)
     for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
